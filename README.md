@@ -1,8 +1,8 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V1
+Code for the SE31520/CHM5820 CSA (CS Alumni Application), csa-cucumber-basic
 
-This version corresponds to completing workshop 5 of the module. 
+This version corresponds to completing workshop 6 of the module. 
 A series of further version will be provided as the module progresses.
 
 
@@ -13,4 +13,4 @@ This has been developed with ruby 2.4.1
 An example development database is included
 
 *  Testing
-No extra tests were developed during this workshop, only those generated automatically
+Demonstrates the use of basic Cucumber testing with RSpec
