@@ -1,4 +1,4 @@
-# Handles incoming user account HTTP requests
+# Controller for user accounts
 # @author Chris Loftus
 class UsersController < ApplicationController
   before_action :set_current_page, except: [:index]
@@ -6,12 +6,21 @@ class UsersController < ApplicationController
 
   rescue_from ActiveRecord::RecordNotFound, with: :show_record_not_found
 
+  # Action method to support the user search feature
+  def search
+      @users = User.like(params[:query])
+                   .paginate(page: params[:page],
+                             per_page: params[:per_page])
+                   .order('surname, firstname')
+      render 'index'
+  end
+
   # GET /users
   # GET /users.json
   def index
-    @users = User.paginate(page: params[:page],
-                           per_page: params[:per_page])
-                 .order('surname, firstname')
+      @users = User.paginate(page: params[:page],
+                             per_page: params[:per_page])
+                   .order('surname, firstname')
   end
 
   # GET /users/1
@@ -35,12 +44,12 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html {redirect_to(user_url(@user, page: @current_page),
-                                 notice: 'Account was successfully created.')}
-        format.json {render :show, status: :created, location: @user}
+        format.html { redirect_to(user_url(@user, page: @current_page),
+                                  notice: 'Account was successfully created.') }
+        format.json { render :show, status: :created, location: @user }
       else
-        format.html {render :new}
-        format.json {render json: @user.errors, status: :unprocessable_entity}
+        format.html { render :new }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -50,12 +59,12 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.html {redirect_to(user_url(@user, page: @current_page),
-                                 notice: 'Account was successfully updated.')}
-        format.json {render :show, status: :ok, location: @user}
+        format.html { redirect_to(user_url(@user, page: @current_page),
+                                  notice: 'Account was successfully updated.') }
+        format.json { render :show, status: :ok, location: @user }
       else
-        format.html {render :edit}
-        format.json {render json: @user.errors, status: :unprocessable_entity}
+        format.html { render :edit }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,8 +74,8 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html {redirect_to users_url(page: @current_page)}
-      format.json {head :no_content}
+      format.html { redirect_to users_url(page: @current_page) }
+      format.json { head :no_content }
     end
   end
 
@@ -80,7 +89,6 @@ class UsersController < ApplicationController
     @current_page = params[:page] || 1
   end
 
-  # We inform the caller if the record no longer exists
   def show_record_not_found(exception)
     respond_to do |format|
       format.html {

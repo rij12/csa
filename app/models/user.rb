@@ -1,4 +1,4 @@
-# Represents a User, with validation checks
+# Basic representation of a user account
 # @author Chris Loftus
 class User < ApplicationRecord
   validates_presence_of :firstname, :surname, :grad_year, :email
@@ -15,6 +15,18 @@ class User < ApplicationRecord
 
   def surname=(value)
     write_attribute :surname, (value ? value.humanize : nil)
+  end
+  
+  def self.like(query)
+    if query.nil?
+      []
+    else
+      where('surname LIKE :query ' +
+            'OR firstname LIKE :query ' +
+            'OR email LIKE :query ' +
+            'OR grad_year LIKE :query',
+            query: "%#{query}%")
+    end
   end
 
   self.per_page = 8
