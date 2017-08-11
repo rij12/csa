@@ -12,5 +12,8 @@ This has been developed with ruby 2.4.1
 * Database creation
 An example development database is included
 
+* Installation dependencies
+ImageMagick must be installed
+
 *  Testing
 No extra tests were developed during this workshop, only those generated automatically
