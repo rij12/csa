@@ -6,13 +6,19 @@ class UsersController < ApplicationController
 
   rescue_from ActiveRecord::RecordNotFound, with: :show_record_not_found
 
-  # Action method to support the user search feature
   def search
-      @users = User.like(params[:query])
-                   .paginate(page: params[:page],
-                             per_page: params[:per_page])
-                   .order('surname, firstname')
+    @users = User.like(params[:query])
+             .paginate(page: params[:page],
+                           per_page:  params[:per_page])
+             .order('surname, firstname')
+    if request.xhr?
+      render partial: 'users_list',
+              object: @users,
+              layout: false
+    else
       render 'index'
+    end   
+
   end
 
   # GET /users

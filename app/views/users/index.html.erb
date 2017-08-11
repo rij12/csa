@@ -1,52 +1,18 @@
 <h1>User accounts</h1>
 
 <% if @users.length > 0 %>
-    <%= form_tag(search_users_path,
-                 method: :get,
+    <%= form_tag(search_users_path, 
+                 method: :get, 
                  id: "search") do %>
-        <fieldset>
-          <%= text_field_tag(:query) %>
-          <%= submit_tag("Search") %>
-        </fieldset>
+      <fieldset>
+        <%= text_field_tag(:query, '', autocomplete: 'off') %>
+        <%= submit_tag("Search") %>
+      </fieldset>
     <% end %>
-
-    <table>
-      <thead>
-      <tr>
-        <th>Surname</th>
-        <th>First name</th>
-        <th>Email</th>
-        <th>Grad. year</th>
-        <th></th>
-        <th></th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @users.each do |user| %>
-          <tr class="data">
-            <td class="surname"><%= user.surname %></td>
-            <td class="firstname"><%= user.firstname %></td>
-            <td class="email"><%= user.email %></td>
-            <td class="grad_year"><%= user.grad_year %></td>
-            <td><%= link_to(image_tag('eye.jpg', alt: 'Show',
-                                      title: 'Show details', border: '0'),
-                            user_path(user, page: @users.current_page))
-            %></td>
-            <td><%= link_to(image_tag('edit.png', alt: 'Edit',
-                                      title: 'Edit item', border: '0'),
-                            edit_user_path(user, page: @users.current_page))
-            %></td>
-            <td><%= link_to(image_tag('destroy.gif', alt: 'Destroy',
-                                      title: 'Destroy item', border: '0'),
-                            user_path(user, page: @users.current_page),
-                            data: {confirm: 'Are you sure?'},
-                            method: :delete)
-            %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    
+    <div id='main-input-area'>
+      <%= render partial: 'users_list', object: @users %>
+    </div>
 <% end %>
 <br>
 <div class="digg_pagination">

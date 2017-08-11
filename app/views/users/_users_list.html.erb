@@ -1,0 +1,37 @@
+    <table>
+      <thead>
+      <tr>
+        <th>Surname</th>
+        <th>First name</th>
+        <th>Email</th>
+        <th>Grad. year</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+          <tr class="data">
+            <td class="surname"><%= user.surname %></td>
+            <td class="firstname"><%= user.firstname %></td>
+            <td class="email"><%= user.email %></td>
+            <td class="grad_year"><%= user.grad_year %></td>
+            <td><%= link_to(image_tag('eye.jpg', alt: 'Show',
+                                      title: 'Show details', border: '0'),
+                            user_path(user, page: @users.current_page))
+            %></td>
+            <td><%= link_to(image_tag('edit.png', alt: 'Edit',
+                                      title: 'Edit item', border: '0'),
+                            edit_user_path(user, page: @users.current_page))
+            %></td>
+            <td><%= link_to(image_tag('destroy.gif', alt: 'Destroy',
+                                      title: 'Destroy item', border: '0'),
+                            user_path(user, page: @users.current_page),
+                            data: {confirm: 'Are you sure?'},
+                            method: :delete)
+            %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>

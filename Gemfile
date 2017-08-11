@@ -55,8 +55,13 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+gem 'jquery-ui-rails', '~> 5.0'
+
 group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'rspec-rails'
+  gem 'poltergeist' # Requires phantomjs to be installed (see environment setup worksheet)
 end
