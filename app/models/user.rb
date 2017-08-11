@@ -1,5 +1,3 @@
-# Represents a User, with validation checks
-# @author Chris Loftus
 class User < ApplicationRecord
   validates_presence_of :firstname, :surname, :grad_year, :email
   validates_numericality_of :grad_year,
@@ -9,6 +7,8 @@ class User < ApplicationRecord
                       with: /\A([\w\.\-\+]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i,
                       message: 'Bad email address format'
 
+  validates_uniqueness_of :email
+  
   def firstname=(value)
     write_attribute :firstname, (value ? value.humanize : nil)
   end
