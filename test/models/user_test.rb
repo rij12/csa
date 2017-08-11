@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+
+  fixtures :users
+
   test "invalid with empty attributes" do
     user = User.new
     assert !user.valid? # Check to see if user.errors is not empty
@@ -11,9 +14,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "grad_year date range between 1970 and this year" do
-    user = User.new(firstname: "Chris",
-                    surname: "Loftus",
-                    email: "cwl@aber.ac.uk")
+    user = User.new(:firstname => "Chris",
+                    :surname => "Loftus",
+                    :email => "cwl1@aber.ac.uk")
     # Do boundary checks
     user.grad_year = 1969
     assert !user.valid?
@@ -32,4 +35,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   # Try writing some tests to check that the email is formatted correctly
+
+  test "unique email" do
+    user = User.new(firstname: "Chris",
+                    surname: "Loftus",
+                    grad_year: 1985,
+                    email: users(:one).email)
+    assert !user.valid?
+  end
 end
