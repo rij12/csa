@@ -1,6 +1,6 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V2b
+Code for the SE31520/CHM5820 CSA (CS Alumni Application), V2c
 
 This version corresponds to the reference slides on testing in workshop 7 of the module. 
 A series of further version will be provided as the module progresses.
