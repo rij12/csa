@@ -4,6 +4,7 @@
     <table>
       <thead>
       <tr>
+        <th></th> <!-- No header for the image -->
         <th>Surname</th>
         <th>First name</th>
         <th>Email</th>
@@ -16,21 +17,25 @@
       <tbody>
       <% @users.each do |user| %>
           <tr>
+            <td><%= image_for(user, :medium) %></td>
             <td><%= user.surname %></td>
             <td><%= user.firstname %></td>
             <td><%= user.email %></td>
             <td><%= user.grad_year %></td>
             <td><%= link_to(image_tag('eye.jpg', alt: 'Show',
                                       title: 'Show details', border: '0'),
-                            user_path(user, page: @users.current_page)) %></td>
+                            user_path(user, page: @users.current_page))
+            %></td>
             <td><%= link_to(image_tag('edit.png', alt: 'Edit',
                                       title: 'Edit item', border: '0'),
-                            edit_user_path(user, page: @users.current_page)) %></td>
+                            edit_user_path(user, page: @users.current_page))
+            %></td>
             <td><%= link_to(image_tag('destroy.gif', alt: 'Destroy',
                                       title: 'Destroy item', border: '0'),
                             user_path(user, page: @users.current_page),
                             data: {confirm: 'Are you sure?'},
-                            method: :delete) %></td>
+                            method: :delete)
+            %></td>
           </tr>
       <% end %>
       </tbody>

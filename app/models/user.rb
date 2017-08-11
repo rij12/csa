@@ -9,6 +9,8 @@ class User < ApplicationRecord
 
   validates_uniqueness_of :email
   
+  has_one :image, dependent: :destroy
+  
   def firstname=(value)
     write_attribute :firstname, (value ? value.humanize : nil)
   end

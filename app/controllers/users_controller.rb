@@ -33,8 +33,16 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    # Only create a new image if the :image_file parameter
+    # was specified
+    @image = Image.new(photo: params[:image_file]) if params[:image_file]
+
+    # The ImageService model wraps up application logic to
+    # handle saving images correctly
+    @service = ImageService.new(@user, @image)
+
     respond_to do |format|
-      if @user.save
+      if @service.save # Will attempt to save user and image
         format.html {redirect_to(user_url(@user, page: @current_page),
                                  notice: 'Account was successfully created.')}
         format.json {render :show, status: :created, location: @user}
@@ -48,8 +56,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    @image = @user.image
+    @service = ImageService.new(@user, @image)
+
     respond_to do |format|
-      if @user.update(user_params)
+      if @service.update_attributes(user_params, params[:image_file])
         format.html {redirect_to(user_url(@user, page: @current_page),
                                  notice: 'Account was successfully updated.')}
         format.json {render :show, status: :ok, location: @user}
@@ -80,7 +91,6 @@ class UsersController < ApplicationController
     @current_page = params[:page] || 1
   end
 
-  # We inform the caller if the record no longer exists
   def show_record_not_found(exception)
     respond_to do |format|
       format.html {
