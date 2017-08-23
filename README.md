@@ -1,8 +1,16 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V3
+Code for the SE31520/CHM5820 CSA (CS Alumni Application), csa-server-for-rest-client
 
-This version corresponds to the worksheet of simple relationships. 
+This version corresponds to the example used in the lectures on REST and Rails.
+This repository also contains a REST client under the folder rest-client. 
+This can be run with the command:
+
+ruby csa_rest_client.rb
+
+The client hard-codes the API URL http://localhost:3000 which you will
+want to change if you run the server on a different host.
+
 A series of further version will be provided as the module progresses.
 
 
