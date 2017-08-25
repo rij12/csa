@@ -1,3 +1,5 @@
+# Represents a user account
+# @author Chris Loftus
 class User < ApplicationRecord
   validates_presence_of :firstname, :surname, :grad_year, :email
   validates_numericality_of :grad_year,
@@ -10,6 +12,8 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
   
   has_one :image, dependent: :destroy
+  
+  has_one :user_detail, dependent: :destroy
   
   def firstname=(value)
     write_attribute :firstname, (value ? value.humanize : nil)

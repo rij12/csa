@@ -1,8 +1,10 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V3
+Code for the SE31520/CHM5820 CSA (CS Alumni Application), V4
 
-This version corresponds to the worksheet of simple relationships. 
+This version corresponds to the worksheet on authentication and authorisation and the 
+lecture on Rails security.
+
 A series of further version will be provided as the module progresses.
 
 
@@ -17,3 +19,4 @@ ImageMagick must be installed
 
 *  Testing
 No extra tests were developed during this workshop, only those generated automatically
+or developed in earlier workshops.
