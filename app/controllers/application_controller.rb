@@ -4,30 +4,34 @@
 # @author Chris Loftus and https://github.com/technoweenie/restful-authentication
 class ApplicationController < ActionController::Base
   helper_method :is_admin?, :logged_in?, :current_user
+
+  # The current trend is to use HTTPS for all web app
+  # communication. Note that we have switch on SSL and
+  # specified its port in config/environments/development.rb
+  force_ssl
+
   protect_from_forgery with: :exception
 
   before_action :login_required
-
-  protected
 
   def login_required
     logged_in? || access_denied
   end
 
   # To support RESTful authentication we need to treat web
-  # browser access differently to web service B2B style interaction:
+  # browser access differently
+  # to web service B2B style interaction:
   # o For HTML C2B based requests we redirect users to a login
-  #   screen as part of form-based authentication. Note that we store the
-  #   original request URI in the user's session so that we
-  #   can go there after they have submitted
-  #   their credentials. We cannot redirect non-human
-  #   users and so this doesn't work for B2B web service
-  #   requests.
+  #   screen as part of
+  #   form-based authentication. Note that we store the original request
+  #   URI in the user's session so that we can go there after
+  #   they have submitted their credentials. We cannot redirect non-human
+  #   users and so this doesn't work for B2B web service requests.
   # o For B2B web service request requiring XML or JSON we rely
   #   on HTTP Basic Authentication.
-  #   If the Accept header or extension specifies JSON or XML
-  #   then a 401 status response is sent to the caller with
-  #   WWW-Authenticate header set, i.e. requesting the credentials
+  #   If the Accept header specifies JSON or XML then
+  #   a 401 status response is sent to the caller with WWW-
+  #   Authenticate header set, i.e. requesting the credentials
   def access_denied
     respond_to do |format|
       format.html do
@@ -40,7 +44,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-
+  
   def login_from_session
     self.current_user =
         UserDetail.find_by_id(session[:user_id]) if session[:user_id]
@@ -62,7 +66,12 @@ class ApplicationController < ActionController::Base
     login_from_session || login_from_basic_auth
   end
 
-  # Store the given user id in the session.
+  # Store the given user id in the session. We cheat a bit and
+  # do this even
+  # for basic authentication. If the session cookie is handled
+  # by the caller
+  # then let's take advantage of it. Perhaps breaks spirit of
+  # REST a little but improves performance where we can.
   def current_user=(new_user)
     session[:user_id] = new_user ? new_user.id : nil
   end
