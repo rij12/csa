@@ -1,3 +1,6 @@
+# The monkey-patches the force_ssl method to update before_action
+# to allow it to work in development mode
+# Chris Loftus
 ActionController::ForceSSL::ClassMethods.module_eval do
   def force_ssl(options = {})
     config = Rails.application.config
@@ -8,7 +11,7 @@ ActionController::ForceSSL::ClassMethods.module_eval do
     port = config.ssl_port if config.respond_to?(:ssl_port) && config.ssl_port.present? # <= this is also new
 
     before_action(options) do
-      if !request.ssl?# && !Rails.env.development? # commented out the exclusion of the development environment
+      if !request.ssl? # && !Rails.env.development? # commented out the exclusion of the development environment
         redirect_options = {:protocol => 'https://', :status => :moved_permanently}
         redirect_options.merge!(:host => host) if host
         redirect_options.merge!(:port => port) if port # <= this is also new
