@@ -1,6 +1,6 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V4
+Code for the SE31520/CHM5820 CSA (CS Alumni Application), V4a
 
 This version corresponds to the worksheet on authentication and authorisation and the 
 lecture on Rails security.

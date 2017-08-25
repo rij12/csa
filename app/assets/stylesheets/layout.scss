@@ -83,10 +83,17 @@ h1 {
   }
 }
 
-.login-form form {
-  float: right;
-  padding-right: 1em;
-  margin-top: 2em;
+.login-form{
+    float:right;
+    padding-right:1em;
+
+    p {
+        color: #C5F1F9;
+    }
+
+    form {
+        padding-top: 2em;
+    }
 }
 
 .register {
@@ -121,14 +128,18 @@ h1 {
 /* Striping the table using CSS3 magic */
 
 tbody tr:nth-child(odd) {
-  background-color: #dddddd;
+    background-color: #dddddd;
 }
 
 tbody tr:nth-child(even) {
-  background-color: #cccccc;
+    background-color: #cccccc;
 }
 
 /* Digg style pagination taken from mislav-will_paginate rails gem doc */
+.digg_pagination {
+  /*background: white;*/
+  /* self-clearing method: */
+}
 
 .digg_pagination a, .digg_pagination span, .digg_pagination em {
   padding: .2em .5em;
@@ -187,7 +198,7 @@ tbody tr:nth-child(even) {
   height: 1%;
 }
 
-*:first-child + html .digg_pagination {
+*:first-child+html .digg_pagination {
   overflow: hidden;
 }
 
@@ -227,3 +238,6 @@ div {
     list-style: square;
   }
 }
+
+
+

@@ -3,6 +3,8 @@
 class UsersController < ApplicationController
   before_action :set_current_page, except: [:index]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  
+  before_action :admin_required
 
   rescue_from ActiveRecord::RecordNotFound, with: :show_record_not_found
 
