@@ -11,8 +11,11 @@ If you want to use with Twitter then you will need to create a
 config/local_env.yml file of the form:
 
 TWOAUTH_CONSUMER_KEY: 'YOUR-CONSUMER-KEY-HERE'
+
 TWOAUTH_CONSUMER_SECRET: 'YOUR-CONSUMER-SECRET-HERE'
+
 TWOAUTH_ACCESS_TOKEN: 'YOUR-ACCESS-TOKEN-HERE'
+
 TWOAUTH_ACCESS_SECRET: 'YOUR-ACCESS-SECRET-HERE'
 
 See http://dev.twitter.com/apps for more info. 
