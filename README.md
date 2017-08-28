@@ -22,6 +22,8 @@ See http://dev.twitter.com/apps for more info.
 Also make sure the file is included in .gitignore so that
 you don't expose sensitive information to the world.
 
+This information is used in the initializer: config/initializers/twitter.rb.
+
 Running in SSL mode
 -------------------
 If you want SSL edit app/controllers/application_controller.rb and uncomment the 
