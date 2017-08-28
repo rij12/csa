@@ -8,16 +8,17 @@ class SessionsController < ApplicationController
   end
 
   # POST /session
-  def create
-    user_detail =
-        UserDetail.authenticate(params[:login], params[:password])
+  def create 
+    user_detail = 
+       UserDetail.authenticate(params[:login], params[:password])
     if user_detail
       self.current_user = user_detail
       uri = session[:original_uri]
       session[:original_uri] = nil
       redirect_to(uri || home_url)
+      flash[:notice] = I18n.t('sessions.login-success')
     else
-      flash[:error] = 'Invalid user/password combination'
+      flash[:error] = I18n.t('sessions.login-failure') + " #{params[:login]}"
       redirect_to new_session_url
     end
   end

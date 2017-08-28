@@ -12,6 +12,27 @@
 
 ActiveRecord::Schema.define(version: 20170825081708) do
 
+  create_table "broadcasts", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_broadcasts_on_user_id"
+  end
+
+  create_table "broadcasts_feeds", id: false, force: :cascade do |t|
+    t.integer "broadcast_id"
+    t.integer "feed_id"
+    t.index ["broadcast_id"], name: "index_broadcasts_feeds_on_broadcast_id"
+    t.index ["feed_id"], name: "index_broadcasts_feeds_on_feed_id"
+  end
+
+  create_table "feeds", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "images", force: :cascade do |t|
     t.integer "user_id"
     t.string "photo_file_name"

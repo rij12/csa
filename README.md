@@ -1,14 +1,30 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V4b
+Code for the SE31520/CHM5820 CSA (CS Alumni Application).  
 
-This version corresponds to the worksheet on authentication and authorisation and the 
-lecture on Rails security.
-
-A series of further version will be provided as the module progresses.
-
+This is the main example shown in class. It has plenty of bugs
+that you are encouraged to fix. 
 
 * Running
+By default it will run in non-ssl mode. If you want to run in SSL mode see below:
+If you want to use with Twitter then you will need to create a
+config/local_env.yml file of the form:
+
+TWOAUTH_CONSUMER_KEY: 'YOUR-CONSUMER-KEY-HERE'
+TWOAUTH_CONSUMER_SECRET: 'YOUR-CONSUMER-SECRET-HERE'
+TWOAUTH_ACCESS_TOKEN: 'YOUR-ACCESS-TOKEN-HERE'
+TWOAUTH_ACCESS_SECRET: 'YOUR-ACCESS-SECRET-HERE'
+
+See http://dev.twitter.com/apps for more info. 
+Also make sure the file is included in .gitignore so that
+you don't expose sensitive information to the world.
+
+Running in SSL mode
+-------------------
+If you want SSL edit app/controllers/application_controller.rb and uncomment the 
+force_ssl command.
+
+Then if running in SSL mode:
 Start using two command line windows:
 In one start puma in non-ssl mode, type:
 

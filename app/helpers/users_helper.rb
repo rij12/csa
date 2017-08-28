@@ -23,5 +23,46 @@ module UsersHelper
                 title: 'No photo available', border: '0')
     end
   end
+  
+  def remote_image_for(user, page, size = :medium)
+    if user.image
+      link_to_rem user, page, user.image.photo.url(size),
+                  "Image of #{user.firstname} #{user.surname}"
+    else
+      link_to_rem user, page, "blank-cover_#{size}.png", "No photo available"
+    end
+  end
+
+  def checkbox_search_fields
+    result = ""
+    count = 1
+    User.search_columns.each do |column|
+      result += "<p>"
+      #result += check_box_tag column.sub!(/^.*\./, ""), "1", false,
+      result += check_box_tag column, "1", false,
+                              #id: "User#{count}" ,
+                              class: "user_search_checkbox",
+                              title: "Select to focus search. All blank is same as all selected"
+      result += "\n"
+      result += label column, column
+      result += "</p>"
+      count += 1
+    end
+    result.html_safe
+  end
+
+  private
+
+  def link_to_rem(user, page, image_path, text_info)
+    link_to image_tag(image_path, alt: text_info,
+                      title: text_info, border: "0"),
+            user_path(user, page: page),
+            class: 'image-tag',
+            method: :get,
+            remote: true
+    #update: id,
+    #before: "q_auto_completer.setToBeHidden(false)"
+  end
+
 
 end

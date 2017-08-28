@@ -23,6 +23,12 @@ h1 {
   margin-left: 1em;
 }
 
+.locale {
+  float:left;
+  padding-top: 0.2em;
+  font-size: 0.75em;
+}
+
 .flash_notice {
   color: #ccffaa;
 }
@@ -35,6 +41,28 @@ h1 {
   position: absolute;
   top: 1.2em;
   left: 0.5em;
+}
+
+.main-input-area{
+  padding-top:1em;
+  float: left;
+  display:block;
+}
+
+.sub-input-area  {
+  float:left;
+  margin-right: 1em;
+  margin-left: 2em;
+  padding-top:1em;
+  display:block;
+
+  .checkboxes p {
+    padding-bottom: 0.5em;
+  }
+
+  .checkboxes {
+    margin-right: 0;
+  }
 }
 
 /* Following is CSS for tabbing taken from: http://clagnut.com/sandbox/csstabs/*/

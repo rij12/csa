@@ -49,18 +49,31 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            when the item should be highlighted, you can set a regexp which is matched
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>. 
     #
-    
+    if session[:user_id]
+      show_user = user_url(id: session[:user_id])
+    else
+      show_user = ''
+    end
     # Highlight the home tab either if the path is / or /home
-    primary.item :home, 'Home', '/home', :highlights_on => /(^\/$)|(^\/home)/
+    primary.item :home, 'Home', '/home', highlights_on: /(^\/$)|(^\/home)/
     primary.item :jobs, 'Jobs', '/jobs'
-    primary.item :profile, 'Profile', '/profile', :if => Proc.new { is_admin? }
-    primary.item :users, 'Users', users_path, :if => Proc.new { is_admin? }
-    primary.item :broadcasts, 'Broadcasts', '/broadcasts', :if => Proc.new { is_admin? }
+    primary.item :profile, 'Profile', show_user,
+                 highlights_on: /\/users\/\d/,
+                 if: Proc.new {current_user}
+    # I want to highlight the Users tab for /users and /users/search etc URLs
+    # However, I don't want to highlight for /users/:id since that is covered by
+    # the profile tab. We can use a :highlights_on regular expression to do this
+    primary.item :users, 'Users', users_path,
+                 highlights_on: /(^\/users$)|(\/users\/search)|(\/users\?)/,
+                 if: Proc.new {is_admin?}
+    primary.item :broadcasts, 'Broadcasts', broadcasts_path,
+                 highlights_on: /\/broadcasts/,
+                 if: Proc.new {is_admin?}
 
     # Add an item which has a sub navigation (same params, but with block)
     #primary.item :key_2, 'name', url, options do |sub_nav|
-      # Add an item to the sub navigation (same params again)
-      #sub_nav.item :key_2_1, 'name', url, options
+    # Add an item to the sub navigation (same params again)
+    #sub_nav.item :key_2_1, 'name', url, options
     #end
 
     # You can also specify a condition-proc that needs to be fullfilled to display an item.

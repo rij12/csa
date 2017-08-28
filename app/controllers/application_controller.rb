@@ -8,11 +8,13 @@ class ApplicationController < ActionController::Base
   # The current trend is to use HTTPS for all web app
   # communication. Note that we have switch on SSL and
   # specified its port in config/environments/development.rb
-  force_ssl
+  #force_ssl
 
   protect_from_forgery with: :exception
 
+  before_action :set_locale
   before_action :login_required
+  after_action :store_location, only: [:index, :new, :show, :edit, :search]
 
   def login_required
     logged_in? || access_denied
@@ -93,5 +95,40 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+  
+  # Store the URI of the current request in the session.
+  #
+  # We can return to this location by calling #redirect_back_or_default.
+  def store_location
+    session[:return_to] = request.fullpath
+  end
+
+  # Redirect to the URI stored by the most recent store_location call or
+  # to the passed default.  Set an appropriately modified
+  #   after_action :store_location, :only => [:index, :new, :show, :edit]
+  # for any controller you want to be bounce-backable.
+  def redirect_back_or_default(default)
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
+  end
+
+  def set_locale
+    session[:locale] = params[:locale] if params[:locale]
+    I18n.locale = session[:locale] || I18n.default_locale
+
+    locale_path = "#{LOCALES_DIRECTORY}#{I18n.locale}.yml"
+
+    unless I18n.load_path.include? locale_path
+      I18n.load_path << locale_path
+      I18n.backend.send(:init_translations)
+    end
+  rescue Exception => err
+    logger.error err
+    flash.now[:notice] = "#{I18n.locale} translation not available"
+
+    I18n.load_path -= [locale_path]
+    I18n.locale = session[:locale] = I18n.default_locale
+  end
+
 end
 

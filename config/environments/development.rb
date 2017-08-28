@@ -51,4 +51,28 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  
+    # By default email will be sent via SMTP
+  #config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :test
+
+  # These settings work for staff over exchange outside
+  # of network
+  #config.action_mailer.smtp_settings = {
+  #address: "smtphost.aber.ac.uk",
+  #port: 587,
+  #user_name: 'cwl',
+  #password: '*****', # Put password here, although rather dangerous
+  #authentication: :login,
+  #enable_starttls_auto: true
+  #}
+
+  # This should work within the network
+  #config.action_mailer.smtp_settings = {
+      #address: "smtphost.aber.ac.uk",
+      #port: 25
+  #}
+
+  ADMIN_EMAIL="admin@host.ac.com" # Change to your email
+
 end
