@@ -52,6 +52,20 @@
     <%= f.label :email %><br>
     <%= f.email_field :email %>
   </div>
+  <%= f.fields_for :user_detail do |user_fields| %>
+        <div class="field">
+          <%= user_fields.label :login %><br>
+          <%= user_fields.text_field :login %><br>
+        </div>
+        <div class="field">
+          <%= user_fields.label :password %><br>
+          <%= user_fields.password_field :password %><br>
+        </div>
+        <div class="field">
+          <%= user_fields.label :password_confirmation %><br>
+          <%= user_fields.password_field :password_confirmation %><br>
+        </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>
