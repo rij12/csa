@@ -58,7 +58,7 @@ $(document).on "turbolinks:load page:change", ->
     autocompOptions =
       source: (request, response)->
         # Build the query string to include checkbox selection
-        urlStr = "/users/search.json"
+        urlStr = "/api/users/search.json"
         firstTime = true
         $.each(checkboxClicked, (key, value)->
           if value

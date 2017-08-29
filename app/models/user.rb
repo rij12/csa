@@ -17,6 +17,13 @@ class User < ApplicationRecord
   has_one :image, dependent: :destroy
   
   has_one :user_detail, dependent: :destroy
+
+  # This allows for the automatic creation of the UserDetail
+  # object and link it to the User object. Nested :user_detail object
+  # in the request is used. So far, I have only managed to get this to work
+  # with form requests from a browser rather than REST client requests with JSON.
+  accepts_nested_attributes_for :user_detail
+
   has_many :broadcasts
   
   def firstname=(value)

@@ -10,6 +10,9 @@ gem 'will_paginate'
 gem 'paperclip'
 gem 'oauth'
 
+gem 'json'
+gem 'rest-client'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 gem 'jquery-ui-rails', '~> 5.0'

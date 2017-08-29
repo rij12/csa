@@ -5,6 +5,15 @@ Rails.application.routes.draw do
     # We add a special route to support the search field
     get 'search', on: :collection
   end
+  
+  # At the moment we only provide a JSON web service
+  # API for user account managment. This is provided
+  # as an example. See the rest_client folder.
+  namespace :api, defaults: {format: :json} do
+    resources :users, except: [:new, :edit] do
+      get 'search', on: :collection
+    end
+  end
 
   # No point allowing the editing or update of an existing broadcast
   resources :broadcasts, except: [:edit, :update]

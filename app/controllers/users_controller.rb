@@ -1,6 +1,8 @@
 # Handles incoming user account HTTP requests
 # @author Chris Loftus
 class UsersController < ApplicationController
+  include UsersCommon
+  
   before_action :set_current_page, except: [:index]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   
@@ -26,18 +28,10 @@ class UsersController < ApplicationController
 
         render 'index'
       }
-      # Deal with incoming Ajax request for JSON data for autocomplete search field
-      format.json {
-        @users = User.where(User.search_conditions(params[:q], search_fields(User)))
-                      .joins(:user_detail)
-                      .order('surname, firstname')
-        puts "Users are #{@users.join(' ')}"
-      }
     end
   end
 
   # GET /users
-  # GET /users.json
   def index
     @users = User.paginate(page: params[:page],
                            per_page: params[:per_page])
@@ -45,7 +39,6 @@ class UsersController < ApplicationController
   end
 
   # GET /users/1
-  # GET /users/1.json
   def show
     if current_user.id == @user.id || is_admin?
       respond_to do |format|
@@ -55,7 +48,6 @@ class UsersController < ApplicationController
                            locals: {user: @user, current_page: @current_page},
                            layout: false }
         format.html # show.html.erb
-        format.json # show.json.builder
       end
     else
       indicate_illegal_request I18n.t('users.not-your-account')
@@ -78,7 +70,6 @@ class UsersController < ApplicationController
   end
 
   # POST /users
-  # POST /users.json
   # At the moment we are only allowing the admin user to create new
   # accounts.
   def create
@@ -96,16 +87,13 @@ class UsersController < ApplicationController
       if @service.save # Will attempt to save user and image
         format.html { redirect_to(user_url(@user, page: @current_page),
                                   notice: I18n.t('users.account-created')) }
-        format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /users/1
-  # PATCH/PUT /users/1.json
   # Can be called either by an admin to update any user account or else by
   # a specific user to update their own account, but no one else's
   def update
@@ -117,10 +105,8 @@ class UsersController < ApplicationController
         if @service.update_attributes(user_params, params[:image_file])
           format.html { redirect_to(user_url(@user, page: @current_page),
                                     notice: I18n.t('users.account-created')) }
-          format.json { render :show, status: :ok, location: @user }
         else
           format.html { render :edit }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
     else
@@ -129,45 +115,21 @@ class UsersController < ApplicationController
   end
 
   # DELETE /users/1
-  # DELETE /users/1.json
   def destroy
     @user.destroy
     respond_to do |format|
       format.html {redirect_to users_url(page: @current_page)}
-      format.json {head :no_content}
     end
   end
 
   private
   # Use callbacks to share common setup or constraints between actions.
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def set_current_page
-    @current_page = params[:page] || 1
-  end
   
-  def search_fields(table)
-    fields = []
-    table.search_columns.each do |column|
-      # The parameters have had the table name stripped off so we
-      # have to to the same to each search_columns column
-      fields << column if params[column.sub(/^.*\./, "")]
-    end
-    fields = nil unless fields.length > 0
-    fields
-  end
-
   def indicate_illegal_request(message)
     respond_to do |format|
       format.html {
         flash[:error] = message
         redirect_back_or_default(home_url)
-      }
-      format.json {
-        render json: "{#{message}}",
-               status: :unprocessable_entity
       }
     end
   end
@@ -177,10 +139,6 @@ class UsersController < ApplicationController
       format.html {
         redirect_to(users_url(page: @current_page),
                     notice: I18n.t('users.account-no-exists'))
-      }
-      format.json {
-        render json: "{#{I18n.t('users.account-no-exists')}}",
-               status: :unprocessable_entity
       }
     end
   end
