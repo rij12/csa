@@ -14,6 +14,10 @@ class User < ApplicationRecord
   has_one :image, dependent: :destroy
   
   has_one :user_detail, dependent: :destroy
+  # This allows for the automatic creation of the UserDetail
+  # object and link it to the User object. Nested :user_detail object
+  # in the request is used.
+  accepts_nested_attributes_for :user_detail
   
   def firstname=(value)
     write_attribute :firstname, (value ? value.humanize : nil)
