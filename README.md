@@ -6,16 +6,13 @@ This is the main example shown in class. It has plenty of bugs
 that you are encouraged to fix. 
 
 * Running
-By default it will run in non-ssl mode. If you want to run in SSL mode see below:
+By default it will run in non-ssl mode using rails start. If you want to run in SSL mode see below.
 If you want to use with Twitter then you will need to create a
 config/local_env.yml file of the form:
 
-TWOAUTH_CONSUMER_KEY: 'YOUR-CONSUMER-KEY-HERE'
-
-TWOAUTH_CONSUMER_SECRET: 'YOUR-CONSUMER-SECRET-HERE'
-
-TWOAUTH_ACCESS_TOKEN: 'YOUR-ACCESS-TOKEN-HERE'
-
+TWOAUTH_CONSUMER_KEY: 'YOUR-CONSUMER-KEY-HERE'\
+TWOAUTH_CONSUMER_SECRET: 'YOUR-CONSUMER-SECRET-HERE'\
+TWOAUTH_ACCESS_TOKEN: 'YOUR-ACCESS-TOKEN-HERE'\
 TWOAUTH_ACCESS_SECRET: 'YOUR-ACCESS-SECRET-HERE'
 
 See http://dev.twitter.com/apps for more info. 
@@ -23,6 +20,9 @@ Also make sure the file is included in .gitignore so that
 you don't expose sensitive information to the world.
 
 This information is used in the initializer: config/initializers/twitter.rb.
+
+There is a simple REST client under the rest_client folder.
+This only supports the manipulation of user accounts.
 
 Running in SSL mode
 -------------------
