@@ -1,8 +1,8 @@
 # README
 
-Code for the SE31520/CHM5820 CSA (CS Alumni Application), V3
+Code for the SE31520/CHM5820 CSA (CS Alumni Application), for use with Heroku
 
-This version corresponds to the worksheet of simple relationships. 
+This version corresponds to the workshop on using Rails with Heroku and AWS
 A series of further version will be provided as the module progresses.
 
 

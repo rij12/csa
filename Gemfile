@@ -9,10 +9,16 @@ gem 'simple-navigation'
 gem 'will_paginate'
 gem 'paperclip'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.2'
+
+# Add Postgres gem (for use on Heroku)
+gem 'pg',group: :production
+
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# when run locally (not on Heroku)
+gem 'sqlite3', group: :development
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
