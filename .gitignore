@@ -10,6 +10,9 @@
 # Don't include Foreman environment variables as may be sensitive
 /.env
 
+# Don't include local_env.yml environment variables as may be sensitive
+/config/local_env.yml
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
