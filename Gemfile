@@ -20,7 +20,7 @@ gem 'pg',group: :production
 
 # Use sqlite3 as the database for Active Record
 # when run locally (not on Heroku)
-gem 'sqlite3', group: :development
+gem 'sqlite3',group: :development
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
