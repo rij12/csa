@@ -1,7 +1,7 @@
 module UsersHelper
   # We display either the image associated user or if there
   # isn't one we display a default image
-  def image_for(user, size = :medium)
+  def image_for(user, size = :medium, link_to_user = false)
     if user.image
       # I wanted to create a clickable link so that the image
       # could be shown full size. To do this we get a URL to an
@@ -12,10 +12,11 @@ module UsersHelper
       # image. Setting the border to "0" removes the border.
       user_image = user.image.photo.url(size)
       image_text = "Image of #{user.firstname} #{user.surname}"
+      image_link = link_to_user ? user : user.image.photo.url
       link_to image_tag(user_image, class: 'image-tag',
                         alt: image_text,
                         title: image_text, border: '0'),
-              user.image.photo.url
+              image_link
     else
       # Creates a non-clickable default image
       image_tag("blank-cover_#{size}.png",

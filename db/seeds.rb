@@ -27,4 +27,5 @@ User.transaction do
   Feed.create!(name: 'email')
   Feed.create!(name: 'RSS')
   Feed.create!(name: 'atom')
+  Feed.create!(name: 'notification')
 end

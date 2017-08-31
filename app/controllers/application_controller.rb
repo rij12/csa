@@ -16,6 +16,9 @@ class ApplicationController < ActionController::Base
   before_action :login_required
   after_action :store_location, only: [:index, :new, :show, :edit, :search]
 
+  # Get the last 20 notifications for display on all pages when logged in
+  before_action :get_notifications
+
   def login_required
     logged_in? || access_denied
   end
@@ -128,6 +131,11 @@ class ApplicationController < ActionController::Base
 
     I18n.load_path -= [locale_path]
     I18n.locale = session[:locale] = I18n.default_locale
+  end
+
+  # Code taken from Kieran Dunbar's 2016-17 assignment solution
+  def get_notifications
+    @notifications = Broadcast.joins(:feeds).where(feeds: {name: "notification"}).order(created_at: :desc).limit(20)
   end
 
 end

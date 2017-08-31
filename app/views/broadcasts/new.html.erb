@@ -72,6 +72,11 @@
         </p>
 
         <p>
+          <%= check_box_tag 'feeds[notification]', '1', true, title: "Select to choose the Notification feed" %>
+          <%= label_tag 'notification', 'Notification Feed' %>
+        </p>
+
+        <p>
           <!--  When TinyMCE was being used. No longer used in example
          onClick: "toogleEditorMode('broadcast-area', 'broadcast[content]', 'twitter-char-count');
                          $('#url-part').toggle();

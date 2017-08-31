@@ -21,8 +21,13 @@ class BroadcastService
         when "email"
           result.concat(via_email(broadcast, feeds[:alumni_email]))
         when "facebook"
+          # Not implemented
         when "RSS"
+          # Not implemented
         when "atom"
+          # Not implemented
+        when "notification"
+          via_notification_feed broadcast
       end
     end
     result
@@ -62,6 +67,26 @@ class BroadcastService
       result = [feed: 'twitter', code: 500, message: e.message]
     end
     result
+  end
+
+  # Code taken from Kieran Dunbar's SE31520 assignment solution 2016-17
+  def self.via_notification_feed(broadcast)
+    # If the user has a defined photo, send that, otherwise just send a blank string
+    image = (broadcast.user.image) ? broadcast.user.image.photo.url(:small) : ""
+
+    # Send out the broadcast user, timestamp and content to the feed via ActionCable
+    ActionCable.server.broadcast 'notifications', {
+        id: broadcast.id,
+        user: {
+            id: broadcast.user.id,
+            firstname: broadcast.user.firstname,
+            surname: broadcast.user.surname,
+            image: image
+        },
+        timestamp: broadcast.created_at.strftime("%d/%m/%y %H:%M:%S"),
+        content: broadcast.content
+    }
+    add_feed broadcast, 'notification'
   end
 
   def self.add_feed(broadcast, feed_name)
