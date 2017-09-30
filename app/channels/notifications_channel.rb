@@ -8,4 +8,8 @@ class NotificationsChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  def receive(data)
+    puts "Notification channel test data: #{data}"
+  end
 end
