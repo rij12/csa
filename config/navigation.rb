@@ -77,7 +77,7 @@ SimpleNavigation::Configuration.run do |navigation|
     # We can use do ... end here or { ... } here to define the block as an argument to
     # to if:, we have to give it an object. So Proc.new creates that object that wraps
     # up the ruby block { is_admin? }. Notice that no block parameters were required.
-    # We use {...} instead of do ... end because the resukt of the block is important,
+    # We use {...} instead of do ... end because the result of the block is important,
     # i.e. that it returns true or false. Try doinging something similar in IRB, e.g.
     # create a is_admin? function and then:
     # p = Proc.new { is_admin? }
