@@ -50,12 +50,41 @@ SimpleNavigation::Configuration.run do |navigation|
     #                            against the current URI.  You may also use a proc, or the symbol <tt>:subpath</tt>. 
     #
     
-    # Highlight the home tab either if the path is / or /home
-    primary.item :home, 'Home', '/home', :highlights_on => /(^\/$)|(^\/home)/
+    # Highlight the home tab either if the path is / or /home. We only really
+    # need this if there are alternative paths that map to the tab, since
+    # a url of say /users will automatically map to the users tab and make it
+    # highlighted. Note, that we changed the root url to point at the
+    # users controller in routes.rb. So for the url '/' you will see the home
+    # tab highlighted, even though it's the users being shown! Later on when
+    # we have a home controller we can change root to go to the home controller
+    # instead.
+    # We use a regular expression match expression that either returns true or false
+    # Remember that ^ means the start of the url string and $ the end, and the
+    # | means or. So matches either / or a url /home
+    # Note that highlights_on: is one of many possible options expressed as a
+    # hash table. It could have been written like {highlights_on:/(^\/$)|(^\/home$)/}
+    # but normally if the hash table is the last parameter of the method
+    # call then we can leave off the braces (it is not ambiguous)
+    primary.item :home, 'Home', '/home', highlights_on: /(^\/$)|(^\/home$)/
     primary.item :jobs, 'Jobs', '/jobs'
-    primary.item :profile, 'Profile', '/profile', :if => Proc.new { is_admin? }
-    primary.item :users, 'Users', users_path, :if => Proc.new { is_admin? }
-    primary.item :broadcasts, 'Broadcasts', '/broadcasts', :if => Proc.new { is_admin? }
+    # The following three tabs should only be displayed if the current user
+    # is logged in as an admin. The is_admin? method is defined in application_controller.rb
+    # in the controllers folder. At the moment it always returns true, but in later
+    # versions it will depend on who is logged in. We want the method to be called
+    # every time the layout page is redisplayed since the admin might have logged out
+    # or in between refreshed of the page. We need to provide the if: option with
+    # a Proc object as its value. This is how we can wrap up a ruby block as an object.
+    # We can use do ... end here or { ... } here to define the block as an argument to
+    # to if:, we have to give it an object. So Proc.new creates that object that wraps
+    # up the ruby block { is_admin? }. Notice that no block parameters were required.
+    # We use {...} instead of do ... end because the result of the block is important,
+    # i.e. that it returns true or false. Try doinging something similar in IRB, e.g.
+    # create a is_admin? function and then:
+    # p = Proc.new { is_admin? }
+    # p.call
+    primary.item :profile, 'Profile', '/profile', if: Proc.new { is_admin? }
+    primary.item :users, 'Users', users_path, if: Proc.new { is_admin? }
+    primary.item :broadcasts, 'Broadcasts', '/broadcasts', if: Proc.new { is_admin? }
 
     # Add an item which has a sub navigation (same params, but with block)
     #primary.item :key_2, 'name', url, options do |sub_nav|
