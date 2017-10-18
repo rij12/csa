@@ -51,11 +51,11 @@ SimpleNavigation::Configuration.run do |navigation|
     #
     
     # Highlight the home tab either if the path is / or /home
-    primary.item :home, 'Home', '/home', :highlights_on => /(^\/$)|(^\/home)/
+    primary.item :home, 'Home', '/home', highlights_on: /(^\/$)|(^\/home)/
     primary.item :jobs, 'Jobs', '/jobs'
-    primary.item :profile, 'Profile', '/profile', :if => Proc.new { is_admin? }
-    primary.item :users, 'Users', users_path, :if => Proc.new { is_admin? }
-    primary.item :broadcasts, 'Broadcasts', '/broadcasts', :if => Proc.new { is_admin? }
+    primary.item :profile, 'Profile', '/profile', if: Proc.new { is_admin? }
+    primary.item :users, 'Users', users_path, if: Proc.new { is_admin? }
+    primary.item :broadcasts, 'Broadcasts', '/broadcasts', if: Proc.new { is_admin? }
 
     # Add an item which has a sub navigation (same params, but with block)
     #primary.item :key_2, 'name', url, options do |sub_nav|
