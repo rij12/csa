@@ -54,9 +54,34 @@ SimpleNavigation::Configuration.run do |navigation|
     else
       show_user = ''
     end
-    # Highlight the home tab either if the path is / or /home
-    primary.item :home, 'Home', '/home', highlights_on: /(^\/$)|(^\/home)/
+    # Highlight the home tab either if the path is / or /home. We only really
+    # need this if there are alternative paths that map to the tab, since
+    # a url of say /users will automatically map to the users tab and make it
+    # highlighted.
+    # We use a regular expression match expression that either returns true or false
+    # Remember that ^ means the start of the url string and $ the end, and the
+    # | means or. So matches either / or a url /home
+    # Note that highlights_on: is one of many possible options expressed as a
+    # hash table. It could have been written like {highlights_on:/(^\/$)|(^\/home$)/}
+    # but normally if the hash table is the last parameter of the method
+    # call then we can leave off the braces (it is not ambiguous)
+    primary.item :home, 'Home', '/home', highlights_on: /(^\/$)|(^\/home$)/
     primary.item :jobs, 'Jobs', '/jobs'
+    # The following tab should only be displayed if a user is logged in.
+    # The current_user method is defined in application_controller.rb
+    # in the controllers folder. If a user is logged in it will return a UserDetail object,
+    # otherwise nil (effectively false). We want the method to be called
+    # every time the layout page is redisplayed since the user might have logged out
+    # in between refreshing of the page. We need to provide the if: option with
+    # a Proc object as its value. This is how we can wrap up a ruby block as an object.
+    # We cannot use do ... end here or { ... } here to define the block as an argument to
+    # to if:, we have to give it an object. So Proc.new creates that object that wraps
+    # up the ruby block { current_user }. Notice that no block parameters were required.
+    # We use {...} instead of do ... end because the result of the block is important,
+    # i.e. that it returns an object. Try doinging something similar in IRB, e.g.
+    # create a is_admin? function and then:
+    # p = Proc.new { is_admin? }
+    # p.call
     primary.item :profile, 'Profile', show_user,
                  highlights_on: /\/users\/\d/,
                  if: Proc.new {current_user}
